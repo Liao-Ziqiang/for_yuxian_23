@@ -9,7 +9,7 @@
   <link rel="icon" href="heart.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css?v=4">
   <script src="gate.js" defer></script>
-  <script src="player.js" defer></script>
+  <script src="player.js?v=2" defer></script>
   <script src="interactions.js" defer></script>
 </head>
 <body>
@@ -92,14 +92,14 @@
 
         <div class="player" role="group" aria-label="音乐播放器">
           <audio id="birthday-audio" data-src="assets/love-flows-within.mp3" preload="metadata"></audio>
-          <input class="range seek" id="seek" type="range" min="0" max="1000" value="0" aria-label="播放进度" disabled>
+          <input class="range seek" id="seek" type="range" min="0" max="1000" value="0" aria-label="播放进度" aria-keyshortcuts="ArrowLeft ArrowRight" title="左右方向键每次调整 5 秒" disabled>
           <div class="times" aria-hidden="true"><span id="current-time">0:00</span><span id="duration">--:--</span></div>
           <div class="controls">
-            <button class="play icon-button" id="play-toggle" type="button" aria-label="播放" title="播放">
+            <button class="play icon-button" id="play-toggle" type="button" aria-label="播放" aria-keyshortcuts="Space" title="播放（空格）">
               <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.55.84l9.6-6.4a1 1 0 0 0 0-1.68l-9.6-6.4A1 1 0 0 0 8 5.6Z" fill="currentColor"/></svg>
               <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5a1.75 1.75 0 0 0-1.75 1.75v10.5a1.75 1.75 0 0 0 3.5 0V6.75A1.75 1.75 0 0 0 9 5Zm6 0a1.75 1.75 0 0 0-1.75 1.75v10.5a1.75 1.75 0 0 0 3.5 0V6.75A1.75 1.75 0 0 0 15 5Z" fill="currentColor"/></svg>
             </button>
-            <button class="loop icon-button" id="loop-toggle" type="button" aria-label="单曲循环" aria-pressed="false" title="开启单曲循环">
+            <button class="loop icon-button" id="loop-toggle" type="button" aria-label="单曲循环" aria-pressed="false" aria-keyshortcuts="L" title="开启单曲循环（L）">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v4h-4M5 19v-4h4m10-6a7.5 7.5 0 0 0-12.3-3M5 15a7.5 7.5 0 0 0 12.3 3M11.2 10.6l1.2-.8v4.5"/></svg>
             </button>
             <div class="volume">

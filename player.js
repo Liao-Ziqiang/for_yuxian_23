@@ -1,4 +1,5 @@
 (() => {
+  const birthdayPage = document.querySelector('#birthday-page');
   const audio = document.querySelector('#birthday-audio');
   const playButton = document.querySelector('#play-toggle');
   const loopButton = document.querySelector('#loop-toggle');
@@ -8,6 +9,8 @@
   const currentTime = document.querySelector('#current-time');
   const duration = document.querySelector('#duration');
   const status = document.querySelector('#player-status');
+  const seekStep = 5;
+  const editableFields = 'input:not([type="range"]), select, textarea, [contenteditable]:not([contenteditable="false"])';
 
   let playing = false;
   let lastAudibleVolume = Number(volume.value) / 100;
@@ -33,12 +36,18 @@
     fillRange(seek);
   }
 
+  function seekTo(seconds) {
+    if (seek.disabled) return;
+    audio.currentTime = Math.max(0, Math.min(seconds, audio.duration));
+    syncPosition();
+  }
+
   function syncPlayback() {
     const isPlaying = !audio.paused && !audio.ended;
     const label = isPlaying ? '暂停' : '播放';
     playButton.classList.toggle('is-playing', isPlaying);
     playButton.setAttribute('aria-label', label);
-    playButton.title = label;
+    playButton.title = `${label}（空格）`;
 
     if (isPlaying !== playing) {
       playing = isPlaying;
@@ -60,7 +69,7 @@
 
   function syncLoop() {
     loopButton.setAttribute('aria-pressed', String(audio.loop));
-    loopButton.title = audio.loop ? '关闭单曲循环' : '开启单曲循环';
+    loopButton.title = audio.loop ? '关闭单曲循环（L）' : '开启单曲循环（L）';
   }
 
   function setStatus(message) {
@@ -90,9 +99,7 @@
   });
 
   seek.addEventListener('input', () => {
-    if (seek.disabled) return;
-    audio.currentTime = Number(seek.value) / Number(seek.max) * audio.duration;
-    syncPosition();
+    seekTo(Number(seek.value) / Number(seek.max) * audio.duration);
   });
 
   volume.addEventListener('input', () => {
@@ -109,6 +116,27 @@
       audio.muted = !audio.muted;
     }
     syncVolume();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (birthdayPage.hidden || event.defaultPrevented || event.isComposing || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.target instanceof Element && event.target.closest(editableFields)) return;
+
+    const key = event.key.toLowerCase();
+    switch (key) {
+      case ' ':
+      case 'l': {
+        event.preventDefault();
+        const button = key === ' ' ? playButton : loopButton;
+        if (!event.repeat) button.click();
+        break;
+      }
+      case 'arrowleft':
+      case 'arrowright':
+        event.preventDefault();
+        seekTo(audio.currentTime + (key === 'arrowleft' ? -seekStep : seekStep));
+        break;
+    }
   });
 
   for (const event of ['loadedmetadata', 'durationchange', 'timeupdate', 'seeked', 'emptied']) {
