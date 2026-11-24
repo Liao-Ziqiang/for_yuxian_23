@@ -1,10 +1,13 @@
 (() => {
   const button = document.querySelector('#wish-button');
+  const birthdaySeal = document.querySelector('#birthday-seal');
+  const artwork = document.querySelector('.artwork');
   const toast = document.querySelector('#wish-toast');
   const wishText = document.querySelector('#wish-text');
   const announcement = document.querySelector('#wish-announce');
   const sparkleLayer = document.querySelector('#sparkle-layer');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const interactive = 'button, input, select, textarea, label, a, summary, audio, [role="button"], [contenteditable]:not([contenteditable="false"])';
   const colors = ['#b49bd6', '#d56e9b', '#9bab65', '#d3a456'];
   let wishes = [
@@ -17,6 +20,7 @@
   let previous;
   let hideTimer;
   let announcementTimer;
+  let celebrationTimer;
 
   if (location.protocol !== 'file:') {
     fetch('./wishes.txt')
@@ -101,11 +105,46 @@
     hideTimer = setTimeout(() => toast.classList.remove('is-visible'), 3400);
   }
 
-  button.addEventListener('click', (event) => {
-    const bounds = button.getBoundingClientRect();
+  function showButtonWish(event) {
+    const bounds = event.currentTarget.getBoundingClientRect();
     const x = event.detail ? event.clientX : bounds.left + bounds.width / 2;
     const y = event.detail ? event.clientY : bounds.top + bounds.height / 2;
     showWish(x, y, true);
+  }
+
+  function resetCoverTilt() {
+    artwork.style.removeProperty('--cover-rx');
+    artwork.style.removeProperty('--cover-ry');
+  }
+
+  button.addEventListener('click', showButtonWish);
+  birthdaySeal?.addEventListener('click', (event) => {
+    showButtonWish(event);
+    if (reducedMotion.matches) return;
+
+    clearTimeout(celebrationTimer);
+    artwork.classList.remove('is-celebrating');
+    // Flush the removed class so successive clicks restart the CSS animation.
+    void artwork.offsetWidth;
+    artwork.classList.add('is-celebrating');
+    celebrationTimer = setTimeout(() => artwork.classList.remove('is-celebrating'), 1650);
+  });
+
+  artwork.addEventListener('pointermove', (event) => {
+    if (event.pointerType !== 'mouse' || !finePointer.matches || reducedMotion.matches) return;
+
+    const { left, top, width, height } = artwork.getBoundingClientRect();
+    const horizontal = (event.clientX - left) / width * 2 - 1;
+    const vertical = (event.clientY - top) / height * 2 - 1;
+    artwork.style.setProperty('--cover-rx', `${Math.max(-4, Math.min(4, -vertical * 4))}deg`);
+    artwork.style.setProperty('--cover-ry', `${Math.max(-4, Math.min(4, horizontal * 4))}deg`);
+  });
+  artwork.addEventListener('pointerleave', resetCoverTilt);
+  finePointer.addEventListener('change', resetCoverTilt);
+  reducedMotion.addEventListener('change', () => {
+    resetCoverTilt();
+    clearTimeout(celebrationTimer);
+    artwork.classList.remove('is-celebrating');
   });
 
   document.addEventListener('click', (event) => {
