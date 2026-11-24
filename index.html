@@ -7,18 +7,69 @@
   <meta name="description" content="送给 Yuxian 的 23 岁生日礼物，一首可以慢慢听的歌。">
   <title>Love Flows Within</title>
   <link rel="icon" href="heart.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
+  <script src="gate.js" defer></script>
   <script src="player.js" defer></script>
-  <script src="wishes.js" defer></script>
+  <script src="wishes.js?v=2" defer></script>
 </head>
 <body>
-  <div class="birthday-page">
-    <header class="masthead">
-      <div class="birthday-mark" aria-label="Yuxian 的 23 岁生日">
-        <img src="heart.svg" alt="" width="34" height="34">
-        <span>YUXIAN <span class="mark-dot">·</span> 23</span>
+  <main class="birthday-entry" id="birthday-entry" aria-labelledby="entry-title">
+    <div class="entry-stage">
+      <div class="entry-decor" aria-hidden="true">
+        <span class="clay-shape clay-shape--lilac"></span>
+        <span class="clay-shape clay-shape--pink"></span>
+        <span class="clay-shape clay-shape--leaf"></span>
+        <span class="clay-shape clay-shape--star">✦</span>
+        <span class="clay-shape clay-shape--dot"></span>
       </div>
-      <span class="date-note" lang="en">A birthday keepsake</span>
+
+      <div class="entry-card">
+        <div class="entry-emblem" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none">
+            <path d="M17.5 22v-5a6.5 6.5 0 0 1 13 0v5" stroke="currentColor" stroke-width="3.25" stroke-linecap="round"/>
+            <path d="M24 39C17.5 35.2 11 30.5 11 24.7c0-6.4 8.4-8.8 13-3 4.6-5.8 13-3.4 13 3C37 30.5 30.5 35.2 24 39Z" fill="currentColor"/>
+            <path d="M24 27v3.5" stroke="#ffe8ed" stroke-width="2.75" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <h1 class="entry-title" id="entry-title" tabindex="-1">我们相恋的时刻是</h1>
+
+        <form class="entry-form" id="entry-form" novalidate>
+          <fieldset>
+            <legend>日期</legend>
+            <div class="entry-selects entry-selects--date">
+              <select id="entry-year" aria-label="年份" required><option value="">年</option></select>
+              <select id="entry-month" aria-label="月份" required><option value="">月</option></select>
+              <select id="entry-day" aria-label="日期中的日" required disabled><option value="">日</option></select>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>时间</legend>
+            <div class="entry-selects entry-selects--time">
+              <select id="entry-hour" aria-label="小时" required><option value="">时</option></select>
+              <span aria-hidden="true">:</span>
+              <select id="entry-minute" aria-label="分钟" required><option value="">分</option></select>
+            </div>
+          </fieldset>
+
+          <p class="entry-feedback" id="entry-feedback" role="status" hidden></p>
+          <button class="entry-submit" id="entry-submit" type="submit">
+            打开生日礼物
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16M4 12h16M7 7l10 10M17 7 7 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+        </form>
+        <noscript><p class="entry-feedback">请开启 JavaScript，再打开生日礼物。</p></noscript>
+      </div>
+    </div>
+  </main>
+
+  <div class="birthday-page" id="birthday-page" hidden>
+    <header class="masthead">
+      <div class="birthday-mark" lang="en">
+        <img src="heart.svg" alt="" width="34" height="34">
+        <span>Love Flows Within</span>
+      </div>
+      <span class="date-note">为雨娴的23岁生日而作</span>
     </header>
 
     <main class="gift">
@@ -27,20 +78,20 @@
         <span class="art-star art-star--top" aria-hidden="true">✦</span>
         <span class="art-star art-star--bottom" aria-hidden="true">✧</span>
         <figure class="cover">
-          <img src="assets/birthday-cover.webp" alt="手捏黏土做成的心形生日蛋糕，旁边围着浅紫缎带、草莓和小花。" width="1254" height="1254" fetchpriority="high">
+          <img id="birthday-cover" data-src="assets/birthday-cover.webp" alt="手捏黏土做成的心形生日蛋糕，旁边围着浅紫缎带、草莓和小花。" width="1254" height="1254" fetchpriority="high">
           <figcaption lang="en"><span>Make a wish</span><span aria-hidden="true">♡</span></figcaption>
+          <button class="cover-trigger" id="cover-trigger" type="button" aria-label="轻碰封面，看看唱片"></button>
         </figure>
         <button class="birthday-seal" id="birthday-seal" type="button" aria-label="点亮 23 岁的生日星星" title="点亮 23 岁的生日星星"><span aria-hidden="true">♡</span><strong aria-hidden="true">23</strong><span aria-hidden="true">✧</span></button>
-        <div class="orbit-charms" aria-hidden="true"><span>✦</span><span>♡</span><span>✧</span><span>✦</span></div>
+        <div class="orbit-charms" aria-hidden="true"><span>✦</span><span>♡</span><span>✧</span><span>✦</span><span>✧</span></div>
       </div>
 
       <section class="music" aria-labelledby="track-title">
         <p class="dedication" lang="en"><span class="music-pulse" aria-hidden="true"><i></i><i></i><i></i></span>Dedicated to Yuxian</p>
-        <h1 id="track-title" lang="en">Love Flows <em>Within</em></h1>
-        <p class="edition" lang="en">Full Ensemble</p>
+        <h1 id="track-title" lang="en" tabindex="-1">Love Flows <em>Within</em></h1>
 
         <div class="player" role="group" aria-label="音乐播放器">
-          <audio id="birthday-audio" src="assets/love-flows-within.mp3" preload="metadata"></audio>
+          <audio id="birthday-audio" data-src="assets/love-flows-within.mp3" preload="metadata"></audio>
           <input class="range seek" id="seek" type="range" min="0" max="1000" value="0" aria-label="播放进度" disabled>
           <div class="times" aria-hidden="true"><span id="current-time">0:00</span><span id="duration">--:--</span></div>
           <div class="controls">
@@ -62,20 +113,13 @@
           <p id="player-status" class="player-status" role="status" hidden></p>
         </div>
 
-        <button class="wish-button" id="wish-button" type="button">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 17V8A1.5 1.5 0 0 1 4 6.5Zm-1 1 9 6 9-6"/></svg>
-          拆一条生日祝福
-          <span aria-hidden="true">✧</span>
-        </button>
-        <noscript><p class="player-status">请启用 JavaScript 来使用播放器和生日祝福。</p></noscript>
       </section>
     </main>
 
-    <footer class="closing"><span aria-hidden="true"></span><p>愿你的 23 岁，心动很多次，快乐每一天。</p><span aria-hidden="true"></span></footer>
+    <footer class="closing"><span aria-hidden="true"></span><p>祝我最爱的雨娴宝贝二十三岁生日快乐</p><span aria-hidden="true"></span></footer>
   </div>
 
   <div id="sparkle-layer" aria-hidden="true"></div>
-  <div id="wish-toast" class="wish-toast" aria-hidden="true"><span class="wish-glint">✧</span><span id="wish-text"></span><span class="wish-glint">✧</span></div>
-  <div id="wish-announce" class="visually-hidden" role="status" aria-live="polite"></div>
+  <div id="wish-toast" class="wish-toast" aria-hidden="true"><span id="wish-text"></span></div>
 </body>
 </html>
