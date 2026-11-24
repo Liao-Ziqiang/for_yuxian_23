@@ -555,33 +555,14 @@ h1 em { display: block; color: var(--berry); font-weight: 400; letter-spacing: -
 .closing > span { width: 6px; height: 6px; flex: none; background: #aa88bc; transform: rotate(45deg); border-radius: 1px; }
 .closing > span:last-child { background: #899962; }
 
-#effects-layer { position: fixed; inset: 0; z-index: 9; pointer-events: none; overflow: hidden; }
+#tap-effects, #effects-layer { position: fixed; inset: 0; z-index: 9; pointer-events: none; }
+#tap-effects { display: block; width: 100%; height: 100%; }
+#effects-layer { overflow: hidden; }
 
-.tap-ripple, .sparkle, .tap-bubble {
+.sparkle {
   position: absolute;
   left: var(--x);
   top: var(--y);
-}
-
-.tap-ripple {
-  width: var(--diameter);
-  aspect-ratio: 1;
-  border: 1px solid #a17ab7;
-  border-radius: 50%;
-  background: radial-gradient(circle, transparent 59%, #f8e4fa55 100%);
-  box-shadow: inset 0 0 9px #f8e8ff9c, 0 0 8px #bd9dd36c;
-  animation: tap-wave 760ms cubic-bezier(.14,.62,.32,1) both;
-}
-
-.tap-ripple--echo {
-  --ripple-scale: .83;
-  border-color: #c695b6;
-  background: transparent;
-  box-shadow: 0 0 6px #e8bdd96b;
-  animation-delay: 85ms;
-}
-
-.sparkle {
   width: var(--size);
   height: var(--size);
   background: radial-gradient(circle, #fff4d8 0 15%, var(--color) 54%);
@@ -591,18 +572,6 @@ h1 em { display: block; color: var(--berry); font-weight: 400; letter-spacing: -
 
 .sparkle--heart { background: none; clip-path: none; color: var(--color); font: var(--size)/1 'Segoe UI Symbol', sans-serif; }
 .sparkle--heart::before { content: '♥'; }
-
-.tap-bubble {
-  width: var(--size);
-  height: var(--size);
-  border: 1px solid #9674ad79;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 29% 27%, #fffcf7f0 0 9%, #fff9fc70 17%, transparent 38%),
-    radial-gradient(ellipse at 70% 79%, var(--color), #fffbfa18 72%);
-  box-shadow: inset 0 0 4px #fffdedb3, 0 1px 3px #9a76b137;
-  animation: bubble-drift var(--life) cubic-bezier(.16,.61,.29,1) both;
-}
 
 .birthday-page.is-entering .artwork { animation: gift-arrive 680ms cubic-bezier(.22,.72,.26,1) both; }
 .birthday-page.is-entering .music { animation: gift-arrive 630ms 70ms cubic-bezier(.22,.72,.26,1) both; }
@@ -641,23 +610,12 @@ h1 em { display: block; color: var(--berry); font-weight: 400; letter-spacing: -
   18%, 45% { opacity: 1; }
   to { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) rotate(20deg) scale(1.06); }
 }
-@keyframes tap-wave {
-  from { opacity: .7; transform: translate(-50%, -50%) scale(.17); }
-  44% { opacity: .45; }
-  to { opacity: 0; transform: translate(-50%, -50%) scale(var(--ripple-scale, 1)); }
-}
 @keyframes burst {
   from { opacity: .25; transform: translate(-50%, -50%) scale(.3); }
   22% { opacity: 1; }
   45% { opacity: .68; }
   60% { opacity: .9; }
   to { opacity: 0; transform: translate(calc(var(--dx) - 50%), calc(var(--dy) - 50%)) rotate(var(--spin)) scale(.7); }
-}
-@keyframes bubble-drift {
-  from { opacity: .22; transform: translate(-50%, -50%) scale(.35); }
-  34% { opacity: .92; }
-  65% { opacity: .69; }
-  to { opacity: 0; transform: translate(calc(var(--dx) - 50%), calc(var(--dy) - 50%)) scale(1.12); }
 }
 
 @media (hover: hover) {
@@ -716,5 +674,5 @@ h1 em { display: block; color: var(--berry); font-weight: 400; letter-spacing: -
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
   .gift:has(.is-playing) .artwork { --cover-angle: -6deg; --record-slide: 0%; }
   .music-pulse i, .orbit-charms span { animation: none !important; }
-  #effects-layer { display: none; }
+  #tap-effects, #effects-layer { display: none; }
 }
