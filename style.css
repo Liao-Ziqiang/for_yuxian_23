@@ -555,44 +555,54 @@ h1 em { display: block; color: var(--berry); font-weight: 400; letter-spacing: -
 .closing > span { width: 6px; height: 6px; flex: none; background: #aa88bc; transform: rotate(45deg); border-radius: 1px; }
 .closing > span:last-child { background: #899962; }
 
-#sparkle-layer { position: fixed; inset: 0; z-index: 9; pointer-events: none; overflow: hidden; }
+#effects-layer { position: fixed; inset: 0; z-index: 9; pointer-events: none; overflow: hidden; }
 
-.sparkle {
+.tap-ripple, .sparkle, .tap-bubble {
   position: absolute;
   left: var(--x);
   top: var(--y);
+}
+
+.tap-ripple {
+  width: var(--diameter);
+  aspect-ratio: 1;
+  border: 1px solid #a17ab7;
+  border-radius: 50%;
+  background: radial-gradient(circle, transparent 59%, #f8e4fa55 100%);
+  box-shadow: inset 0 0 9px #f8e8ff9c, 0 0 8px #bd9dd36c;
+  animation: tap-wave 760ms cubic-bezier(.14,.62,.32,1) both;
+}
+
+.tap-ripple--echo {
+  --ripple-scale: .83;
+  border-color: #c695b6;
+  background: transparent;
+  box-shadow: 0 0 6px #e8bdd96b;
+  animation-delay: 85ms;
+}
+
+.sparkle {
   width: var(--size);
   height: var(--size);
-  background: var(--color);
-  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  background: radial-gradient(circle, #fff4d8 0 15%, var(--color) 54%);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
   animation: burst var(--life) cubic-bezier(.16,.65,.3,1) forwards;
 }
 
 .sparkle--heart { background: none; clip-path: none; color: var(--color); font: var(--size)/1 'Segoe UI Symbol', sans-serif; }
 .sparkle--heart::before { content: '♥'; }
 
-.wish-toast {
-  --wish-opacity: .6;
-  position: fixed;
-  z-index: 10;
-  left: var(--wish-x, 50%);
-  top: var(--wish-y, 50%);
-  width: max-content;
-  max-width: calc(100% - 48px);
-  color: #663355;
-  line-height: 1.45;
-  font-size: clamp(.94rem, 2.3vw, 1.08rem);
-  font-weight: 550;
-  text-align: center;
-  text-shadow: 0 1px 3px #fffaf6, 0 0 9px #fffaf6a6;
-  overflow-wrap: anywhere;
-  pointer-events: none;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateX(-50%);
+.tap-bubble {
+  width: var(--size);
+  height: var(--size);
+  border: 1px solid #9674ad79;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 29% 27%, #fffcf7f0 0 9%, #fff9fc70 17%, transparent 38%),
+    radial-gradient(ellipse at 70% 79%, var(--color), #fffbfa18 72%);
+  box-shadow: inset 0 0 4px #fffdedb3, 0 1px 3px #9a76b137;
+  animation: bubble-drift var(--life) cubic-bezier(.16,.61,.29,1) both;
 }
-
-.wish-toast.is-visible { visibility: visible; animation: wish-float 1280ms ease-out both; }
 
 .birthday-page.is-entering .artwork { animation: gift-arrive 680ms cubic-bezier(.22,.72,.26,1) both; }
 .birthday-page.is-entering .music { animation: gift-arrive 630ms 70ms cubic-bezier(.22,.72,.26,1) both; }
@@ -602,12 +612,6 @@ h1 em { display: block; color: var(--berry); font-weight: 400; letter-spacing: -
 @keyframes entry-arrive { from { opacity: 0; transform: translateY(10px) scale(.985); } }
 @keyframes entry-depart { to { opacity: 0; transform: translateY(-10px) scale(.985); } }
 @keyframes gift-arrive { from { opacity: 0; transform: translateY(12px); } }
-@keyframes wish-float {
-  from { opacity: 0; transform: translate(-50%, var(--wish-entry-y, 7px)); }
-  14% { opacity: var(--wish-opacity); }
-  78.125% { opacity: var(--wish-opacity); transform: translate(-50%, 0); }
-  to { opacity: 0; transform: translate(-50%, -5px); }
-}
 @keyframes twinkle { 50% { opacity: .46; transform: scale(.76) rotate(17deg); } }
 @keyframes music-pulse { 50% { transform: scaleY(.43); } }
 @keyframes seal-tap {
@@ -637,10 +641,23 @@ h1 em { display: block; color: var(--berry); font-weight: 400; letter-spacing: -
   18%, 45% { opacity: 1; }
   to { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) rotate(20deg) scale(1.06); }
 }
+@keyframes tap-wave {
+  from { opacity: .7; transform: translate(-50%, -50%) scale(.17); }
+  44% { opacity: .45; }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(var(--ripple-scale, 1)); }
+}
 @keyframes burst {
-  from { opacity: 1; transform: translate(-50%, -50%) scale(.35); }
-  24% { opacity: 1; }
+  from { opacity: .25; transform: translate(-50%, -50%) scale(.3); }
+  22% { opacity: 1; }
+  45% { opacity: .68; }
+  60% { opacity: .9; }
   to { opacity: 0; transform: translate(calc(var(--dx) - 50%), calc(var(--dy) - 50%)) rotate(var(--spin)) scale(.7); }
+}
+@keyframes bubble-drift {
+  from { opacity: .22; transform: translate(-50%, -50%) scale(.35); }
+  34% { opacity: .92; }
+  65% { opacity: .69; }
+  to { opacity: 0; transform: translate(calc(var(--dx) - 50%), calc(var(--dy) - 50%)) scale(1.12); }
 }
 
 @media (hover: hover) {
@@ -699,5 +716,5 @@ h1 em { display: block; color: var(--berry); font-weight: 400; letter-spacing: -
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
   .gift:has(.is-playing) .artwork { --cover-angle: -6deg; --record-slide: 0%; }
   .music-pulse i, .orbit-charms span { animation: none !important; }
-  .wish-toast.is-visible { animation: none !important; opacity: var(--wish-opacity); }
+  #effects-layer { display: none; }
 }
