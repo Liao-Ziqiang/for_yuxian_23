@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff1f5">
+  <meta name="description" content="送给 Yuxian 的 23 岁生日礼物，一首可以慢慢听的歌。">
+  <title>Love Flows Within</title>
+  <link rel="icon" href="heart.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="player.js" defer></script>
+  <script src="wishes.js" defer></script>
+</head>
+<body>
+  <div class="birthday-page">
+    <header class="masthead">
+      <div class="birthday-mark" aria-label="Yuxian 的 23 岁生日">
+        <img src="heart.svg" alt="" width="34" height="34">
+        <span>YUXIAN <span class="mark-dot">·</span> 23</span>
+      </div>
+      <span class="date-note" lang="en">A birthday keepsake</span>
+    </header>
+
+    <main class="gift">
+      <div class="artwork">
+        <div class="record" aria-hidden="true"><span></span></div>
+        <span class="art-star art-star--top" aria-hidden="true">✦</span>
+        <span class="art-star art-star--bottom" aria-hidden="true">✧</span>
+        <figure class="cover">
+          <img src="assets/birthday-cover.webp" alt="手捏黏土做成的心形生日蛋糕，旁边围着浅紫缎带、草莓和小花。" width="1254" height="1254" fetchpriority="high">
+          <figcaption lang="en"><span>Make a wish</span><span aria-hidden="true">♡</span></figcaption>
+        </figure>
+        <div class="birthday-seal" aria-hidden="true"><span>♡</span><strong>23</strong><span>✧</span></div>
+      </div>
+
+      <section class="music" aria-labelledby="track-title">
+        <p class="dedication" lang="en">Dedicated to Yuxian</p>
+        <h1 id="track-title" lang="en">Love Flows <em>Within</em></h1>
+        <p class="edition" lang="en">Full Ensemble</p>
+
+        <div class="player" role="group" aria-label="音乐播放器">
+          <audio id="birthday-audio" src="assets/love-flows-within.mp3" preload="metadata"></audio>
+          <input class="range seek" id="seek" type="range" min="0" max="1000" value="0" aria-label="播放进度" disabled>
+          <div class="times" aria-hidden="true"><span id="current-time">0:00</span><span id="duration">--:--</span></div>
+          <div class="controls">
+            <button class="play icon-button" id="play-toggle" type="button" aria-label="播放" title="播放">
+              <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.55.84l9.6-6.4a1 1 0 0 0 0-1.68l-9.6-6.4A1 1 0 0 0 8 5.6Z" fill="currentColor"/></svg>
+              <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5a1.75 1.75 0 0 0-1.75 1.75v10.5a1.75 1.75 0 0 0 3.5 0V6.75A1.75 1.75 0 0 0 9 5Zm6 0a1.75 1.75 0 0 0-1.75 1.75v10.5a1.75 1.75 0 0 0 3.5 0V6.75A1.75 1.75 0 0 0 15 5Z" fill="currentColor"/></svg>
+            </button>
+            <button class="loop icon-button" id="loop-toggle" type="button" aria-label="单曲循环" aria-pressed="false" title="开启单曲循环">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v4h-4M5 19v-4h4m10-6a7.5 7.5 0 0 0-12.3-3M5 15a7.5 7.5 0 0 0 12.3 3M11.2 10.6l1.2-.8v4.5"/></svg>
+            </button>
+            <div class="volume">
+              <button class="icon-button mute" id="mute-toggle" type="button" aria-label="静音" title="静音">
+                <svg class="volume-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 4a4.3 4.3 0 0 1 0 6m2.7-8.8a8 8 0 0 1 0 11.6"/></svg>
+                <svg class="volume-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm5 5 5 5m0-5-5 5"/></svg>
+              </button>
+              <input class="range volume-slider" id="volume" type="range" min="0" max="100" value="80" aria-label="音量">
+            </div>
+          </div>
+          <p id="player-status" class="player-status" role="status" hidden></p>
+        </div>
+
+        <button class="wish-button" id="wish-button" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 17V8A1.5 1.5 0 0 1 4 6.5Zm-1 1 9 6 9-6"/></svg>
+          拆一条生日祝福
+          <span aria-hidden="true">✧</span>
+        </button>
+        <noscript><p class="player-status">请启用 JavaScript 来使用播放器和生日祝福。</p></noscript>
+      </section>
+    </main>
+
+    <footer class="closing"><span aria-hidden="true"></span><p>愿你的 23 岁，心动很多次，快乐每一天。</p><span aria-hidden="true"></span></footer>
+  </div>
+
+  <div id="sparkle-layer" aria-hidden="true"></div>
+  <div id="wish-toast" class="wish-toast" aria-hidden="true"><span class="wish-glint">✧</span><span id="wish-text"></span><span class="wish-glint">✧</span></div>
+  <div id="wish-announce" class="visually-hidden" role="status" aria-live="polite"></div>
+</body>
+</html>
