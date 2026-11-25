@@ -7,9 +7,9 @@
   <meta name="description" content="送给 Yuxian 的 23 岁生日礼物，一首可以慢慢听的歌。">
   <title>Love Flows Within</title>
   <link rel="icon" href="heart.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=5">
-  <script src="gate.js" defer></script>
-  <script src="player.js?v=2" defer></script>
+  <link rel="stylesheet" href="style.css?v=6">
+  <script src="gate.js?v=2" defer></script>
+  <script src="player.js?v=3" defer></script>
   <script src="tap-effects.js" defer></script>
   <script src="interactions.js?v=2" defer></script>
 </head>
@@ -27,7 +27,8 @@
       <div class="entry-card">
         <div class="entry-emblem" aria-hidden="true">
           <svg viewBox="0 0 48 48" fill="none">
-            <path d="M17.5 22v-5a6.5 6.5 0 0 1 13 0v5" stroke="currentColor" stroke-width="3.25" stroke-linecap="round"/>
+            <path class="entry-shackle" d="M17.5 22v-5a6.5 6.5 0 0 1 13 0v5" stroke="currentColor" stroke-width="3.25" stroke-linecap="round"/>
+            <path class="entry-unlock-light" d="M29.5 19h8" stroke="#fff1b0" stroke-width="1.8" stroke-linecap="round"/>
             <path d="M24 39C17.5 35.2 11 30.5 11 24.7c0-6.4 8.4-8.8 13-3 4.6-5.8 13-3.4 13 3C37 30.5 30.5 35.2 24 39Z" fill="currentColor"/>
             <path d="M24 27v3.5" stroke="#ffe8ed" stroke-width="2.75" stroke-linecap="round"/>
           </svg>
@@ -76,11 +77,15 @@
     <main class="gift">
       <div class="artwork">
         <div class="record" aria-hidden="true"><span></span></div>
+        <div class="record-stylus" aria-hidden="true"><span class="stylus-arm"></span><span class="stylus-pivot"></span></div>
         <span class="art-star art-star--top" aria-hidden="true">✦</span>
         <span class="art-star art-star--bottom" aria-hidden="true">✧</span>
         <figure class="cover">
           <img id="birthday-cover" data-src="assets/birthday-cover.webp" alt="手捏黏土做成的心形生日蛋糕，旁边围着浅紫缎带、草莓和小花。" width="1254" height="1254" fetchpriority="high">
-          <figcaption lang="en"><span>Make a wish</span><span aria-hidden="true">♡</span></figcaption>
+          <figcaption lang="en">
+            <span>Make a wish</span>
+            <svg class="cover-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-1.2-.9-8-5.2-8-10a4.25 4.25 0 0 1 8-2.05A4.25 4.25 0 0 1 20 10c0 4.8-6.8 9.1-8 10Z" stroke-linejoin="round"/></svg>
+          </figcaption>
           <button class="cover-trigger" id="cover-trigger" type="button" aria-label="轻碰封面，看看唱片"></button>
         </figure>
         <button class="birthday-seal" id="birthday-seal" type="button" aria-label="点亮 23 岁的生日星星" title="点亮 23 岁的生日星星"><span aria-hidden="true">♡</span><strong aria-hidden="true">23</strong><span aria-hidden="true">✧</span></button>
@@ -101,7 +106,11 @@
               <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5a1.75 1.75 0 0 0-1.75 1.75v10.5a1.75 1.75 0 0 0 3.5 0V6.75A1.75 1.75 0 0 0 9 5Zm6 0a1.75 1.75 0 0 0-1.75 1.75v10.5a1.75 1.75 0 0 0 3.5 0V6.75A1.75 1.75 0 0 0 15 5Z" fill="currentColor"/></svg>
             </button>
             <button class="loop icon-button" id="loop-toggle" type="button" aria-label="单曲循环" aria-pressed="false" aria-keyshortcuts="L" title="开启单曲循环（L）">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v4h-4M5 19v-4h4m10-6a7.5 7.5 0 0 0-12.3-3M5 15a7.5 7.5 0 0 0 12.3 3M11.2 10.6l1.2-.8v4.5"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 5v4h-4M5 19v-4h4m10-6a7.5 7.5 0 0 0-12.3-3M5 15a7.5 7.5 0 0 0 12.3 3M11.2 10.6l1.2-.8v4.5"/>
+                <path class="loop-trace" d="M6.7 6A7.5 7.5 0 0 1 19 9l0-4" pathLength="100"/>
+                <path class="loop-trace loop-trace--return" d="M17.3 18A7.5 7.5 0 0 1 5 15v4" pathLength="100"/>
+              </svg>
             </button>
             <div class="volume">
               <button class="icon-button mute" id="mute-toggle" type="button" aria-label="静音" title="静音">

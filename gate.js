@@ -58,7 +58,7 @@
     }
 
     entry.classList.add('is-leaving');
-    window.setTimeout(reveal, 260);
+    window.setTimeout(reveal, 440);
   }
 
   addOptions(year, 2018, 2030, '年');

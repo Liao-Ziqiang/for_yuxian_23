@@ -1,5 +1,6 @@
 (() => {
   const birthdayPage = document.querySelector('#birthday-page');
+  const artwork = document.querySelector('.artwork');
   const audio = document.querySelector('#birthday-audio');
   const playButton = document.querySelector('#play-toggle');
   const loopButton = document.querySelector('#loop-toggle');
@@ -13,6 +14,7 @@
   const editableFields = 'input:not([type="range"]), select, textarea, [contenteditable]:not([contenteditable="false"])';
 
   let playing = false;
+  let soughtToTrackEnd = false;
   let lastAudibleVolume = Number(volume.value) / 100;
 
   function formatTime(seconds) {
@@ -38,7 +40,10 @@
 
   function seekTo(seconds) {
     if (seek.disabled) return;
-    audio.currentTime = Math.max(0, Math.min(seconds, audio.duration));
+    const position = Math.max(0, Math.min(seconds, audio.duration));
+    soughtToTrackEnd = position === audio.duration;
+    artwork.classList.remove('is-track-ended');
+    audio.currentTime = position;
     syncPosition();
   }
 
@@ -145,6 +150,17 @@
   for (const event of ['play', 'pause', 'ended']) {
     audio.addEventListener(event, syncPlayback);
   }
+  audio.addEventListener('play', () => {
+    if (audio.currentTime < audio.duration) {
+      soughtToTrackEnd = false;
+      artwork.classList.remove('is-track-ended');
+    }
+  });
+  audio.addEventListener('ended', () => {
+    if (audio.ended && !audio.loop && !soughtToTrackEnd) {
+      artwork.classList.add('is-track-ended');
+    }
+  });
   audio.addEventListener('volumechange', syncVolume);
   audio.addEventListener('error', () => {
     syncPlayback();
